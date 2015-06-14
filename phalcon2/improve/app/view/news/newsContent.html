@@ -1,0 +1,52 @@
+
+<script type="text/javascript">
+	$(function() {
+		$("#_top_move_indst").lunbo({
+		begin : 1,
+		speed : 5000,
+		pics : "#_top_move_indst li",
+		lbtn : "#_tp_movies_l_btn",
+		rbtn : "#_tp_movies_r_btn"
+		});
+	});
+</script>
+
+<div class="wrapper">
+	<div class="details_banner">
+    <?php if(!empty($content['banner'])){?>
+		<a href="javascript:void(0)"><img src="<?php echo TUrl::instance()->imageUp($content['banner']);  ?>"></a>
+		<?php }?>
+	</div>
+	<div class="hr_10"></div>
+	<div class="film_left left">
+		<div class="moviecount">
+			<div class="details_con">
+			 <?php if(count($content['scroll'])>0){ ?>
+				<div class="details_swiping" id="_top_move_indst">
+					<ul class="clearfix">
+					    <?php foreach($content['scroll'] as $itm){ ?>
+						<li class="now" style="position: absolute; display: none;"><a href="#"><img src="<?php echo TUrl::instance()->imageUp($itm);  ?>" style="width: 800px;height: 270px" alt=""></a></li>
+
+						<?php }?>
+					</ul>
+					<a class="l_btn" href="javascript:;" id="_tp_movies_l_btn" style="display: none;"></a>
+					<a class="r_btn" href="javascript:;" id="_tp_movies_r_btn" style="display: none;"></a>
+				</div>
+				<?php }?>
+				<div class="text">
+					<?php echo $content['content']?>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 右侧内容开始 -->
+	<div class="film_right right">
+		    <div class="right_clum2">
+			<?php   $this->partial('block/index/filmCritic'); ?>
+		    </div>
+
+</div>
+<!-- 右侧内容结束 -->
+<div class="clear"></div>
+</div>

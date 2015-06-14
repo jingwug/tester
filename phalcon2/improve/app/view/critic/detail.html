@@ -1,0 +1,353 @@
+<link href="http://img.caimiao.cn/yingshi/v2/css/critic.css" rel="stylesheet" type="text/css" />
+<style>
+.headimg{  border-radius: 50%;}
+</style>
+<div class="wrapper">
+<!--中间部分-->
+<div class="file_mode">
+<div class="film_left left">
+<div class="moviecount">
+	<div class="movie_critic">
+		<h2 class="title"><?php echo $content['title']?></h2>
+		<div class="user_info">
+			<img src="<?php if ($content['headimg']==''){ ?>  <?php echo '/images/default.png' ?> <?php }else{ ?> <?php echo $content['headimg']?><?php }?>  " alt="<?php echo $content['nickname']?>" style="width: 50px;height: 50px">
+			<span class="user_name"><?php echo $content['nickname']?></span>
+			<span class="movie_star"></span>
+			<span class="data"><?php echo date('Y-m-d H:i:s',$content['ctime'])?></span>
+		</div>
+		<div class="con">
+		<?php echo $content['content']?>
+		</div>
+		<br/>
+		<div class="inter_btn" >
+			<a class="praise"  href="javascript:;" style="float: right;" dataid="<?php echo $content['nid']?>">(<b><?php echo $content['up']?></b>)</a>
+			<!-- <a class="attention" href="javascript:;">关注</a> -->
+		</div>
+		<div class="article_comment">
+			<ul>
+	<?php foreach($commtents as $itm){?>
+				<li>
+					<div class="data">
+						<span><?php echo date('Y-h-d H:i:s',$itm['ctime'])?></span>
+					</div>
+					<div class="con">
+						<div class="pic left">
+							<img src="<?php if ($itm['headimg']==''){ ?>/images/default.png  <?php }else{ ?><?php echo $itm['headimg']?><?php }?>" class='headimg'>
+							<span><?php echo empty($itm['nickname'])?$itm['username']:$itm['nickname']?></span>
+						</div>
+						<div class="text left">
+							<p><?php echo $itm['content']?></p>
+						</div>
+						<div class="floico">
+							<span class="z_floico" dataid="<?php echo $itm['nid']?>">赞（<b><?php echo $itm['up']?></b>）</span>
+							<span class="h_floico" dataid="<?php echo $itm['nid']?>">踩（<b><?php echo $itm['down']?></b>）</span>
+							
+						</div>
+					<!-- 	<div class="cm_textarea">
+							<textarea name="body" placeholder="在这里输入回复内容"></textarea>
+							<input class="reply_btn" type="button" value="回复">
+						</div> -->
+					</div>
+				</li>
+		<?php }?>
+				<li>
+				<!-- 	<div class="data">
+						<span>2015-04-18</span><span>07:11:01</span>
+					</div>
+					<div class="con">
+						<div class="pic left">
+							<img src="img/comment_user.jpg">
+							<span>独行的猫</span>
+						</div>
+						<div class="text left">
+							<p>回复<b class="h_name">@天马行空:</b>毕业晚会早已没了期待，毕业晚会早已没了期待，前两天大家还为了这事撕逼一场←_←永远是回忆最美好，放在当下，我特么真希望不去了我特么真希望不去了我特么真希望不去了我特么真希望不去了我特么真希望</p>
+							<p class="text_restore">毕业晚会早已没了期待，前两天大家还为了这事撕逼一场←_←永远是回忆最美好，放在当下，我特么真希望不去了我特么真希望</p>
+						</div>
+						<div class="floico">
+							<span class="h_floico">回应</span>
+							<span class="z_floico">赞（<b>1</b>）</span>
+						</div>
+						<div class="cm_textarea" style="display: none;">
+							<textarea name="body" placeholder="在这里输入回复内容"></textarea>
+							<input class="reply_btn" type="button" value="回复">
+						</div>
+					</div> -->
+					<div class="score">
+					<!-- 	<span class="p_star">评分</span>
+						<ul class="ui_big_ratings">
+							<li class="half"></li>
+							<li class="on"></li>
+							<li id="3" class="half"></li>
+							<li class="on" id="4"></li>
+							<li id="5" class="half"></li>
+							<li class="on" id="6"></li>
+							<li id="7" class="half"></li>
+							<li class="on" id="8"></li>
+							<li id="9" class="half"></li>
+							<li class="off" id="10"></li>
+							<li class=""></li>
+					    </ul> -->
+						<div class="score_textarea">
+							<textarea placeholder="输入回复内容" id='commentValue'></textarea>
+							<input class="sub_btn" type="button" value="发布评论" id='addComment'>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+	<?php echo $paginator->getHtml();	?>
+</div>
+<div class="film_right right">
+	<div class="right_clum2">
+	<?php   $this->partial('block/index/filmCritic'); ?>
+</div>
+<div class="clear"></div>
+</div>
+<!--end-->
+
+</div>
+
+    <!-- 登录弹窗 S -->
+        <div class="wlogin" style="display: none">
+            <h3 class="title">会员登录<a class="close" href="javascript:;"></a></h3>
+            <div class="wlogin_right">
+                <form name="login" method="post" action="" id="login_form">
+                    <div class="info_list">
+                        <span class="input_n">用户名</span>
+                        <label class="inpt winpt">
+                            <input class="G_input" maxlength="11" type="text" id="mobile" name="mobile" alt="请输入手机号码" style="width:246px;">
+                            <label class="overTxtLabel" for="mobile" >请输入您的电话号码或邮箱</label>
+                        </label>
+                    </div>
+
+                    <div class="info_list">
+                        <span class="input_n">密&nbsp&nbsp码</span>
+                        <label class="inpt winpt">
+                            <input class="G_input" type="password" id="password2" name="password" alt="登录密码">
+                            <label class="overTxtLabel" for="password2">请输入密码密码</label>
+                        </label>
+                    </div>
+
+
+                    <div class="info_list">
+                        <label class="inpt " for="captchaWebInput" style="width:115px;">
+                            <input type="text" class="captcha G_input" id="captchaWebInput" name="captcha" alt="验证码" autocomplete="off" style="width:115px" >
+                            <label class="overTxtLabel" for="captchaWebInput" style="width: 115px;">验证码</label>
+                            <span class="" style="left:110px;"></span>
+                        </label>
+                        <span style="float:left;padding-left:15px" class="yz_pic"><img class="valicode" style="cursor:pointer;vertical-align:top;" src="" alt="点击刷新"  id="valicode"> </span>
+                        <a href="javascript:void(0);" class="k_bq" style="right:-35px;" title="看不清楚，请点击换一张图片" onclick="CAPTCHA.refresh();">看不清？</a>
+                    </div>
+                    <div class="info_list" style="margin-top: 20px;">
+                        <input id="anonymity" name="anonymity" type="checkbox" class="styled">
+                        <div class="fu_wu" style="display: inline;">记住密码</div>
+                        <div class="wj_mm" style="top:0px;right:-11px;"><a href="javascript:void(0)">忘记密码？</a></div>
+
+                    </div>
+                    <div class="info_list">
+                        <input type="button" id="userLoginDiaBtn" class="getCheckpass" value="登&nbsp;&nbsp;录" style="width:325px;left:0px">
+                    </div>
+                    <div class="error02" style="display: block;">请登陆 </div>
+                </form>
+            </div>
+        </div>
+           <div class="wlogin_bg" style="display: none"></div>
+
+<script>
+$('#addComment').click(function(){
+
+var commentValue=$('#commentValue').val();
+commentValue = commentValue.replace(/<\/?[^>]*>/g,''); //去除HTML tag
+commentValue = commentValue.replace(/[ | ]*\n/g,'\n'); //去除行尾空白
+commentValue = commentValue.replace(/\n[\s| | ]*\r/g,'\n'); //去除多余空行
+
+if(commentValue==''){
+alert('请输入内容');
+$('#commentValue').focus();
+	return ;
+}
+if(commentValue.length>300){
+	alert('内容不能超过300字');
+	$('#commentValue').focus();
+	return ;
+	}
+
+$.ajax({url:'/comment/ajaxaddcomment',type:'post',data:{'commentValue':commentValue,'nid':"<?php echo $content['nid']?>"},success:function(data){
+	if(data.code>0){
+		
+		 location.reload();
+	}else if(data.code==-1){
+		$("body").animate({scrollTop:0},200);
+		  $('.wlogin').show();
+          $('.wlogin_bg').show();
+	}
+	
+	
+},dataType:'json',})
+
+
+})
+
+</script>
+
+<script>
+$('.close').click(function(){
+	closedia();
+})
+
+function closedia(){
+    $('.wlogin').hide();
+    $('.wlogin_bg').hide();
+}
+    function checkParame(){
+        if($('#selectSeatsForm1 input[name^=seats]').length <= 0){
+            alert('请选择座位');
+            return false;
+        }
+        if(!isPhone($('#selectSeatsForm1 input[name=phone]').val())){
+            $('.error02').text('手机号输入不正确，请重新输入');
+            $('.error02').show();
+            return false;
+        }
+
+        if(!$('#selectSeatsForm1 input[name=captcha]').val() || $('#selectSeatsForm1 input[name=captcha]').val().length !=4){
+            $('.error02').text('请输入正确的验证码');
+            $('.error02').show();
+            return false;
+        }else{
+            var  captcha= $('#selectSeatsForm1 input[name=captcha]').val();
+            $.post('/user/checkCaptcha', {captcha: captcha}, function (result) {
+                if (result != 1) {
+                    $('.error02').text('请输入正确的验证码');
+                    $('.error02').show();
+                }else{
+                    $('.error02').hide();
+                    //检查用户是否登录
+                    $.post('/user/isLogin', {}, function (result) {
+
+                        if (result != 1) {
+
+                            $('.wlogin').show();
+                            $('.wlogin_bg').show();
+                        }else{
+                            $('#selectSeatsForm1').submit();
+                        }
+                    });
+                }
+            });
+            return false;
+        }
+        return false;
+    }
+
+
+    var CAPTCHA = {
+        //验证码刷新
+        refresh: function () {
+            $.post('/image/refresh', {data: ''}, function (result) {
+                $('.valicode').attr('src', $.parseJSON(result));
+            });
+        }
+    };
+    function isPhone(str){
+        var reg = /^(1)[34578]{1}[0-9]{9}$/;
+        return reg.test(str);
+    }
+    CAPTCHA.refresh();
+
+    function closedia(){
+        $('.wlogin').hide();
+        $('.wlogin_bg').hide();
+    }
+
+    $("#userLoginDiaBtn").on("click",function(){
+        $('#login_form').cmSimpleFormValidate({
+            elements:{'#mobile':"手机号码不能为空",'#password1':'密码不能为空'}
+        });
+        if ( $('#login_form').cmSimpleFormValidate('valid')) {
+
+
+        	var username=$('#mobile').val();
+        	var pass=$('#password2').val();
+        	var captchaWebInput=$('#captchaWebInput').val();
+        	var data={username:username,password:pass,captcha:captchaWebInput};
+        	 $.post('/user/dologin', {data: data}, function (result) {
+                if(result.status=='success'){
+                	 location.reload();
+                	closedia();
+                }else{
+                	$('.error02').html(result.content);
+                	$('.error02').show();
+
+                }
+             },'json');
+
+
+
+
+        }
+    });
+    
+    //赞影评
+    $('.praise').click(function(){
+    	var ev=$(this);
+		var nid=$(this).attr('dataid');
+    	
+    	
+
+    	$.ajax({url:'/comment/ajaxzan',type:'post',data:{'type':1,'nid':nid},success:function(data){
+    		
+    		if(data.code==1){
+    			var count= $(ev).find('b').eq(0).html();
+    			
+    			 $(ev).find('b').eq(0).html(parseInt(count)+1);
+    		}else if(data.code==-1){
+    			$("body").animate({scrollTop:0},200);
+    			  $('.wlogin').show();
+    	          $('.wlogin_bg').show();
+    		} else if(data.code==2){
+    			alert(data.msg);
+    		}
+    		
+    		
+    	},dataType:'json',})
+    	
+    })
+    
+   $('.h_floico').click(function(){
+    	
+    	zan_cai(2,$(this));
+    })
+    
+    
+    $('.z_floico').click(function(){
+    	
+    	zan_cai(1,$(this));
+    })
+    
+    function zan_cai(type,ev){
+    	var nid=$(ev).attr('dataid');
+    	
+    	
+
+    	$.ajax({url:'/comment/ajaxzan',type:'post',data:{'type':type,'nid':nid},success:function(data){
+    		
+    		if(data.code==1){
+    			var count= $(ev).find('b').eq(0).html();
+    			 $(ev).find('b').eq(0).html(parseInt(count)+1);
+    		}else if(data.code==-1){
+    			$("body").animate({scrollTop:0},200);
+    			  $('.wlogin').show();
+    	          $('.wlogin_bg').show();
+    		} else if(data.code==2){
+    			alert(data.msg);
+    		}
+    		
+    		
+    	},dataType:'json',})
+
+
+    }
+</script>

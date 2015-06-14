@@ -1,0 +1,18 @@
+			<?php $films = BFilmBlock::upcomming(1,8); ?>
+
+			<div class="left_clum2 clearfix">
+				<div class="film_title">
+					<h2>即将上映</h2>
+					<!-- <a target="_blank" href="#" class="more">更多></a> -->
+				</div>
+				<ul>
+					<?php foreach($films as $film) { ?>
+					<li>
+                                            <a href="<?php echo TUrl::instance()->get('/film/detail/id/'.$film['film_id']); ?>" target="_blank"><img style="width:200px; height:240px;" src="<?php echo TUrl::instance()->imageUp($film['image']);  ?>" /></a>
+						<p>
+							<a href="<?php echo TUrl::instance()->get('/film/detail/id/'.$film['film_id']); ?>" target="_blank"><?php echo $film['name']; ?></a><span><b
+								class="col"><?php echo $film['attention']; ?></b>人关注</span>
+						</p></li>
+					<?php } ?>
+				</ul>
+			</div>

@@ -1,0 +1,32 @@
+			<?php $films = BFilmBlock::playing(1,8); ?>
+
+			<div class="left_clum1 clearfix">
+				<div class="film_title">
+					<h2>正在热映</h2>
+					<!-- <a target="_blank" href="#" class="more">更多></a> -->
+				</div>
+				<ul>
+					<?php foreach($films as $film) { ?>
+					<li>
+						<div class="pic">
+                                                    <a href="<?php echo TUrl::instance()->get('/film/detail/id/'.$film['film_id']); ?>" target="_blank"><img style="width:200px; height:240px;" src="<?php echo TUrl::instance()->imageUp($film['image']); ?>" />
+							<p class="text">
+									<span class="hr_20"></span><b><?php echo $film['name']; ?></b>
+									<span><?php echo $film['summary']; ?></span>
+									<span>导演：<?php echo $film['director']; ?> 演员：<?php echo $film['actors']; ?></span>
+									<b>上映时间：<?php echo $film['start_date']; ?>-<?php echo $film['end_date']; ?></b>
+									<b><?php echo $film['audience']; ?>人购票</b><b class="col"><?php echo $film['price']; ?>元起</b>
+								</p></a>
+						</div>
+						<div class="word">
+							<p>
+								<a href="<?php echo TUrl::instance()->get('/film/detail/id/'.$film['film_id']); ?>" target="_blank" class="txt"><?php echo $film['name']; ?></a><em>8.7分</em>
+							</p>
+							<p>
+								<a href="<?php echo TUrl::instance()->get('/film/detail/id/'.$film['film_id']); ?>" target="_blank" class="ticket">马上购票</a>
+							</p>
+						</div>
+					</li>
+					<?php } ?>
+				</ul>
+			</div>

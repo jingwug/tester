@@ -1,0 +1,285 @@
+<script type="text/javascript" src="<?php echo TUrl::instance()->js('custom-form-elements.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo TUrl::instance()->js('index.js'); ?>"></script>
+
+<!-- 主体内容开始 -->
+<div class="login_cont">
+    <div class="login_r_ct">
+
+        <ul class="login_tit">
+            <li class="lg_li lg_on"><a href="javascript:void(0);">会员登录</a></li>
+            <li class="reg_li"><a href="javascript:void(0);">会员注册</a></li>
+        </ul>
+        <div class="tab_box">
+            <div class="login_right">
+                <form id="login_form" method="post" name="login" onsubmit="return false;">
+                    <div class="info_list">
+                        <label class="inpt ">
+                            <input class="G_input" maxlength="30" type="text" id="username" autocomplete="off" name="username" onblur="USER.checkName();" alt="请输入手机号码" value="<?php echo $account ? $account : ''; ?>" style="width:246px;">
+                            <label class="overTxtLabel" for="username">请输入您的账号</label>
+                        </label>
+                    </div>
+
+                    <div class="info_list">
+                        <label class="inpt">
+                            <input class="G_input" type="password" id="password" name="password" autocomplete="off" value="" onblur="USER.checkName();" alt="登录密码" />
+                            <label class="overTxtLabel" for="password">请输入密码</label>
+                        </label>
+                    </div>
+
+                    <div class="info_list">
+                        <label class="inpt " for="captcha" style="width:145px;">
+                            <input type="text" class="captcha G_input" maxlength="4" id="captcha" name="captcha" alt="验证码"
+                                   autocomplete="off" style="width:145px">
+                            <label class="overTxtLabel" for="captcha" style="width: 145px;">验证码</label>
+                            <span class=""></span>
+                        </label>
+                        <span style="float:left;padding-left:15px" class="yz_pic"><img style="cursor:pointer;vertical-align:top;" src="" alt="点击刷新" onclick="CAPTCHA.refresh();" id="valicode" class="valicode"> </span>
+                        <a href="javascript:void(0);" class="k_bq" title="看不清楚，请点击换一张图片" onclick="CAPTCHA.refresh();">看不清？</a>
+                    </div>
+                    <div class="info_list">
+                        <input id="is_remember" name="is_remember" type="checkbox" value="1" class="styled">
+
+                        <div class="fu_wu">记住密码</div>
+                        <div class="wj_mm"><a href="">忘记密码？</a></div>
+                    </div>
+                    <div class="info_list">
+                        <input type="submit" class="getCheckpass" value="登&nbsp;&nbsp;录"  onclick="USER.login();" style="width:358px;left:0px">
+                    </div>
+                </form>
+
+            </div>
+            <div class="login_right hide" id="signUp">
+                <form method="post" name="signup" id="reg_form" onsubmit="return false;">
+                    <div class="info_list">
+                        <label class="inpt ">
+                            <input class="G_input" maxlength="11" type="text" id="r_phone" name="phone" alt="请输入手机号码"
+                                   style="width:246px;">
+                            <label class="overTxtLabel" for="r_phone">请输入手机号码</label>
+                        </label>
+                    </div>
+                    <div class="info_list">
+                        <label class="inpt " for="r_code" style="width:180px;">
+                            <input type="text" maxlength="6" class="captcha G_input" id="r_code" name="code" alt="输入验证码"
+                                   autocomplete="off" style="width:180px">
+                            <label class="overTxtLabel" for="r_code" style="width: 180px;">请输入手机验证码</label>
+                        </label>
+                        <input type="button" id="sendSMS" class="getCheckpass" value="发送手机验证码">
+                    </div>
+                    <div class="info_list">
+                        <label class="inpt">
+                            <input class="G_input" type="password" id="r_password" name="password" alt="登录密码">
+                            <label class="overTxtLabel" for="r_password">登录密码</label>
+                        </label>
+                    </div>
+                    <div class="info_list">
+                        <label class="inpt">
+                            <input class="G_input" type="password" name="repassword" id="repassword" alt="确认密码">
+                            <label class="overTxtLabel" for="repassword">确认密码</label>
+                        </label>
+                    </div>
+                    <div class="info_list">
+                        <label class="inpt " style="width:145px;">
+                            <input type="text" maxlength="4" class="captcha G_input" id="r_captcha" name="captcha"
+                                   alt="验证码" autocomplete="off" style="width:145px">
+                            <label class="overTxtLabel" for="r_captcha" style="width: 145px;">验证码</label>
+                            <span class=""></span>
+                        </label>
+                        <span style="float:left;padding-left:15px" class="yz_pic">
+                            <img style="cursor:pointer;vertical-align:top;" src="" alt="点击刷新" id="r_valicode"
+                                 class="valicode" onclick="CAPTCHA.refresh();"> </span>
+                        <a href="javascript:void(0);" class="k_bq" title="看不清楚，请点击换一张图片" onclick="CAPTCHA.refresh();">看不清？</a>
+                    </div>
+                    <div class="info_list">
+                        <input id="anonymity" name="anonymity" type="checkbox" checked value="1" class="styled">
+
+                        <div class="fu_wu">已阅读并同意《用户协议》</div>
+                    </div>
+                    <div class="info_list">
+                        <input type="submit" class="getCheckpass" value="注&nbsp;&nbsp;册" onclick="USER.signUp()"
+                               style="width:358px;left:0px">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="banner_main"><img src="<?php echo TUrl::instance()->image('login_banner.png');?>" alt=""/></div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#sendSMS").click(function () {
+            var phone = $('#r_phone').val();
+            if (phone) {
+                if (!phone.match(/^(((1[34578]{1}))+\d{9})$/)) {
+                    alert("请正确填写电话号码，例如:13415764179");
+                    $("#phone").focus();
+                    return false;
+                }
+            } else {
+                alert("请先填写手机号码");
+                $("#phone").focus();
+                return false;
+            }
+            var url = "<?php echo $this->url->get('user/sendsms')?>";
+            $.post(url, {phone: phone}, function (result) {
+                alert($.parseJSON(result).content);
+            });
+        });
+        var $tab_li = $('.login_tit li');
+        $tab_li.on("click",function(){
+            $(this).addClass('lg_on').siblings().removeClass('lg_on');
+            var index = $tab_li.index(this);
+            $('.tab_box >.login_right').eq(index).show().siblings().hide();
+        });
+        $('.login_right label').on("click",function(){
+            $('.login_right label').removeClass('err_border');
+            $(this).addClass('err_border');
+        });
+        $('.login_right input[type="text"]').on("focus",function(){
+            $('.login_right label').removeClass('err_border');
+            $(this).parent().addClass('err_border');
+        });
+        $('.login_right input[type="password"]').on("focus",function(){
+            $('.login_right label').removeClass('err_border');
+            $(this).parent().addClass('err_border');
+        });
+        $('.login_right input[name="captcha"]').on("keyup",function(){
+            if($(this).val() && $(this).val().length != 4){
+                return false;
+            }
+            USER.checkCaptcha($(this).val(),$(this).parent().find('span'));
+        });
+        var flg = "{{ flg }}";
+        if(flg == 2){
+            $('.reg_li').click();
+        }
+    });
+    //用户js
+    var USER = {
+        checkName: function () {
+            var username = $('#login_form #username').val();
+            $('.error02').remove();
+            if (username.length > 0) {
+                $.post('checkName', {username: username}, function (result) {
+                    if (result <= 0) {
+                        var html = '<div class="error02">请输入正确的用户名</div>';
+                        $('.error02').remove();
+                        $('#login_form #username').parent().parent().after(html);
+                    } else {
+                        $('#usernameType').val(result);
+                    }
+                });
+
+            }
+        },
+
+        //检查验证码
+        checkCaptcha: function (captcha,obj) {
+
+        },
+
+        //注册
+        signUp: function () {
+            var data = {};
+            var msg = '';
+            data.phone = $('#signUp #r_phone').val();
+            data.code = $('#signUp #r_code').val();
+            data.password = $('#signUp #r_password').val();
+            data.repassword = $('#signUp #repassword').val();
+            data.captcha = $('#signUp #r_captcha').val();
+            data.anonymity = $('#signUp #anonymity:checked').val();
+            if (!data.phone) {
+                msg += '请输入正确的手机号\n';
+                $('#signUp #r_phone').focus();
+            }
+            if (!data.code) {
+                msg += '请输入正确的手机号验证码\n';
+                $('#signUp #r_code').focus();
+            }
+            if (!data.password) {
+                msg += '请输入密码\n';
+                $('#signUp #r_password').focus();
+            }
+            if (!data.repassword) {
+                msg += '请再次输入密码\n';
+                $('#signUp #repassword').focus();
+            }
+            if (!data.captcha) {
+                msg += '请输入正确的验证码\n';
+                $('#signUp #r_captcha').focus();
+            }
+            if (!data.anonymity) {
+                msg += '必须接受服务协议后才能注册\n';
+                $('#signUp #anonymity').focus();
+            }
+
+            if (msg) {
+                alert(msg);
+                return false;
+            }
+
+            $.post('signUp', {data: data}, function (result) {
+                var data = $.parseJSON(result);
+                if (data.status == 'success') {
+                    alert('注册成功');
+                    location.href = data.url;
+                } else {
+                    $('.error02').remove();
+                    var html = '<div class="error02">' + data.content + '</div>';
+                    $('#signUp #r_captcha').parent().parent().after(html);
+                }
+            });
+
+        },
+
+
+        //登录
+        login:function(){
+            var data = {};
+            var msg = '';
+            data.username = $('#login_form #username').val();
+            data.password = $('#login_form #password').val();
+            data.captcha = $('#login_form #captcha').val();
+            if (!data.username) {
+                msg += '请输入正确的用户名\n';
+                $('#login_form #username').focus();
+            }
+
+            if (!data.password) {
+                msg += '请输入密码\n';
+                $('#login_form #password').focus();
+            }
+            if (!data.captcha) {
+                msg += '请输入正确的验证码\n';
+                $('#login_form #captcha').focus();
+            }
+
+            if (msg) {
+                alert(msg);
+                return false;
+            }
+            $.post('dologin', {data: data}, function (result) {
+                var data = $.parseJSON(result);
+//                var data = result;
+                if (data.status == 'success') {
+                    alert('登录成功');
+                    location.href = data.url;
+                } else {
+                    $('.error02').remove();
+                    var html = '<div class="error02">' + data.content + '</div>';
+                    $('#login_form #captcha').parent().parent().after(html);
+                }
+            });
+        }
+
+    };
+
+    var CAPTCHA = {
+        //验证码刷新
+        refresh: function () {
+            $.post('/image/refresh', {data: ''}, function (result) {
+                $('.valicode').attr('src', $.parseJSON(result));
+            });
+        }
+    };
+    CAPTCHA.refresh();
+</script>

@@ -1,0 +1,51 @@
+
+<div class="wrapper">
+	<div class="film_left left">
+		<div class="moviecount" id="zryg_movies_box1">
+			<div class="movietab pad_38"><a href="/news/preview" class="">预告</a><a href="javascript:void(0);" class="hov">资讯</a></div>
+
+			<div class="zx_tit clearfix">
+				最新电影资讯
+			</div>
+			<ul class="zx_main">
+
+				<?php foreach($news as $itm) { ?>
+				<li>
+					<img src="<?php echo TUrl::instance()->imageUp($itm['image']);  ?>" alt="<?php echo $itm['title'];  ?>">
+
+					<div class="zx_bg"><a href="/news/newsContent/id/<?php echo $itm['id'];  ?>"><img src="/images/tou.png" alt="<?php echo $itm['title'];  ?>"></a></div>
+					<div class="zx_name">
+						<a href="/news/newsContent/id/<?php echo $itm['id'];  ?>"><?php echo $itm['title'];  ?></a>
+
+					</div>
+					<div class="zx_time"><?php echo date('Y/m/d', $itm['ctime']);  ?></div>
+					<div class="zx_m_ctr">
+						<p> <?php echo $itm['summary']  ?><a href="/news/newsContent/id/<?php echo $itm['id'];  ?>" class="more_ctr">查看全文</a></p>
+					</div>
+
+
+				</li>
+
+		<?php } ?>
+
+			</ul>
+			<div class="clear"></div>
+		</div>
+
+
+		<div class="hr_10"></div>
+	<?php echo $paginator->getHtml();	?>
+	</div>
+
+	<!-- �Ҳ����ݿ�ʼ -->
+	<div class="film_right right">
+			 <?php $this->partial('block/heatPlaying'); ?>
+
+		    <div class="right_clum2">
+		<?php   $this->partial('block/index/filmCritic'); ?>
+		    </div>
+
+</div>
+<!-- �Ҳ����ݽ��� -->
+<div class="clear"></div>
+</div>

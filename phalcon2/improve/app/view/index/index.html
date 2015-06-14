@@ -1,0 +1,114 @@
+<div class="clear"></div>
+<!-- banner开始 -->
+<div class="wrapper">
+    <div class="column">
+
+	<?php $this->partial('block/index/turnPlay'); ?>
+
+	<div class="find_box right">
+		<h3>快速购票</h3>
+		<ul>
+			<li><input type="text" value="选择时间"  id="v_date"/>
+			<input type="hidden" value=""  id="v_date_hide" />
+			<input type="hidden" value=""  id="v_cinema_hide" />
+			<input type="hidden" value=""  id="v_film_hide" />
+			<i class="ico"></i>
+			<div class="appoint_area a_time" style="display: none;">
+				<h5 class='v_date'>选择时间</h5>
+				<div class="con">
+					<ul>
+	<?php
+                $weeks = array(1 => '一', 2 => '二', 3 => '三', 4 => '四', 5 => '五', 6 => '六', 7 => '日');
+                $start = strtotime(date('Ymd'));
+                $end = $start + 7 * 86400;
+                for($i = $start; $i < $end; $i+=86400) {
+                    $currentDate = date('n-d', $i);
+                    $str='	<li  class="sel_time" v=' .date('Ymd', $i).' s='. date('n月d日', $i).'><span class="data" >'.$currentDate.'</span> <span class="cur">';
+                    if(date('Ymd',$i)==date('Ymd',time())){
+                        $str.='今天';
+                    }else{
+                        $str.='星期'.$weeks[date('N',$i)];
+                    }
+                    $str.='</span></li>';
+                    echo $str;
+                }
+        ?>
+					</ul>
+				</div>
+			</div>
+		</li>
+		<li>
+			<input type="text" value="选择影院" class='s_cinema_name'/>
+			<i class="ico"></i>
+			<div class="appoint_area a_movie" style="display: none;" id="chooseAreaAndCinema">
+				<h5><span  class='s_regtion'>商区</span>/<span class='s_cinema'>影院</span></h5>
+				<div class="tab">
+					<a class="active" href="javascript:;">行政区</a>
+					<a href="javascript:;">影院</a>
+				</div>
+				<div class=" tab_con admin_con none" >
+					<span>热门商区：</span>
+					<?php
+						 foreach ($reglist as $item){
+							echo '<a href="javascript:;" code="'.$item['code'].'" class="sl_region" >'.$item['name'].'</a> ';
+						}
+					?>
+				</div>
+				<div class="tab_con movie_con none">
+					<span>影院：</span>
+					<div class='cinemalist'>
+					</div>
+				</div>
+			</div>
+		</li>
+		<li>
+			<input type="text" value="选择影片" class='s_film_name' /> <i class="ico"></i>
+			<div class="appoint_area"  style="display: none">
+				<h5 class='s_film'>
+				 选择影片<i></i>
+				</h5>
+				<div class="tab_con  film_con" >
+					<span>影片：</span>
+					<div class='film_list'>
+					</div>
+				</div>
+			</div>
+		</li>
+	</ul>
+	<a class="buy_btn" href="javascript:;">快速购票</a>
+</div>
+		<!-- 快速购票结束 -->
+	</div>
+</div>
+<!-- banner -->
+<div class="clear"></div>
+<!-- 中间板块开始 -->
+<div class="wrapper">
+
+	<!--中间部分-->
+	<div class="file_mode">
+		<div class="film_left left">
+
+			<?php $this->partial('block/index/playing'); ?>
+
+			<?php $this->partial('block/index/upcomming'); ?>
+
+			<?php $this->partial('block/index/cinema'); ?>
+
+			<?php $this->partial('block/index/news'); ?>
+		</div>
+		<div class="film_right right">
+					<div class="right_clum1">
+						<?php $this->partial('block/index/weekTop10Film'); ?>
+					</div>
+					<div class="right_clum2">
+						<?php   $this->partial('block/index/filmCritic'); ?>
+					</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<!--end-->
+
+</div>
+<!-- 板块结束 -->
+<div class="hr_20"></div>

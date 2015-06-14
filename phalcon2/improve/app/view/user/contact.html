@@ -1,0 +1,80 @@
+<link href="<?php echo TUrl::instance()->css('center.css'); ?>" rel="stylesheet" type="text/css" />
+<!-- 主体内容开始 -->
+<div class="wrapper center_main">
+<?php $this->partial('user/left'); ?>
+
+<!-- 右侧开始 -->
+    <div class="center_main_r" id="czpage_grzh_box2">
+        <div class="hr_20"></div>
+        <div class="ct_r_tit">
+            <p style="float:right">我的账户</p>
+			<!--
+            <p>订单状态：<span class="org">已取消订单</span></p>
+            <p>订单状态：<span class="org">已取消订单</span></p>
+            <div class="ct_r_more"><a href="">返回</a></div>
+			-->
+        </div>
+
+		<!-- 中间板块开始 -->
+		<div class="zy_line_tit">
+			<div class="slider02" style="left:135px;"></div>
+			<a href="/user/basic">基本资料</a>
+			<a class="sec_on" href="/user/contact">联系方式</a>
+		</div>
+        <div class="clear"></div>
+        <div class="center_r_main br_gray">
+            <div class="platform_pay">
+                <p class="czje">Q Q：</p>
+                <div class="czje_inpt">
+                    <input type="text" class="u_input" onkeyup="" name="qq" id="qq" value="<?php echo $userInfo['qq']; ?>">
+                    <div class="cz_error" style="display:none;">您输入的手机号格式错误</div>
+                </div>
+                <div class="center_ljgp02"><a href="javascript:void(0);">保存资料</a></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="hr_30"></div>
+    </div>
+<div class="clear"></div>
+
+</div>
+<script>
+    $(function(){
+        $('.platform_pay input').on('click',function(){
+            $('.platform_pay input').removeClass('error_up');
+            $(this).addClass('error_up');
+        });
+        $('.center_ljgp02 a').on('click',function(){
+//            var email = $('#email').val();
+            var qq = $('#qq').val();
+            if(qq == ''||!isQQ(qq)){
+                $('#qq').after('<div class="cz_error">请输入正确的QQ号码</div>');
+                return false;
+            }
+//            if(email == ''||!isEmail(email)){
+//                $('#email').after('<div class="cz_error">请输入正确的邮箱</div>');
+//                return false;
+//            }
+            $.post('/user/editAjax', {qq:qq}, function (result) {
+                var data = $.parseJSON(result);
+                if (data.status == 'success') {
+                    alert(data.content);
+                    location.reload();
+                } else {
+                    alert(data.content+'，请联系客服');
+                }
+            });
+
+
+        });
+    });
+
+    function isEmail(str){
+        var reg = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/;
+        return reg.test(str);
+    }
+    function isQQ(str){
+        var reg = /^[1-9]{1}[0-9]{4,10}$/;
+        return reg.test(str);
+    }
+</script>

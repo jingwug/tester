@@ -1,0 +1,140 @@
+<!-- 主体内容开始 -->
+<div class="wrapper">
+	<div class="film_left left">
+		<div class="moviecount">
+			<div class="movietab pad_38">
+				<a href="javascript:void(0);" class="hov">预告</a> <a
+					href="javascript:void(0);">资讯</a>
+			</div>
+
+			<div class="yg_tab clearfix">
+				<a href="javascript:void(0);" class="hov">即将上映影片预告</a> <a
+					href="javascript:void(0);">最热影片预告</a>
+			</div>
+			<ul class="yg_main">
+				<?php foreach($films as $film) { ?>
+                                <li><img src="<?php echo $film['foreshow']; ?>" />
+					<div class="yg_main_tit">
+						上映时间：
+						<?php echo date('Y/m/d', strtotime($film['start_date'])); ?>
+					</div>
+					<div class="yg_bg">
+                                            <a href="#ex7"><img src="<?php echo $film['image']; ?>" /></a>
+					</div>
+					<p class="yg_name"><?php echo $film['name']; ?></p>
+					<p class="yg_gz">
+						<span><?php echo $film['attention']; ?>}</span>人已关注
+					</p></li> <?php } ?>
+			</ul>
+			<ul class="zr_main" style="display: none;">
+				<?php foreach($films as $film) { ?>
+				<?php $scores = explode('.', $film['score']); ?>
+                                <li><img src="<?php echo $film['foreshow']; ?>" />
+					<div class="zr_main_tit">
+						上映时间：
+						<?php echo date('Y/m/d', strtotime($film['start_date'])); ?>
+					</div>
+					<div class="zr_bg">
+                                            <a href="#ex7"><img src="<?php echo $film['image']; ?>" alt="<?php echo $film['name']; ?>" /></a>
+					</div>
+					<div class="zr_name">
+						<p class="na_tit"><?php echo $film['name']; ?></p>
+						<p class="na_scro">
+							<em><?php echo $scores[0]; ?></em><b>.<?php echo $scores[1]; ?></b>分
+						</p>
+					</div>
+					<div class="zr_gz">
+						<span><?php echo $film['attention']; ?></span>人已关注
+					</div></li> <?php } ?>
+			</ul>
+			<div class="clear"></div>
+		</div>
+		<div class="hr_10"></div>
+		<div class="movie_page">
+			<span class="prev over">上一页</span> <a class="active" href="#">1</a> <a
+				href="#">2</a> <a href="#">3</a> <a href="#">4</a> <span
+				class="next">下一页</span>
+		</div>
+	</div>
+
+	<!--弹窗-->
+	<div id="ex7" class="modal">
+		<div class="showboxmode">
+			<div class="showboxleft left">
+				<video id="media" src="test.mp4" controls width="830" heigt="560"></video>
+			</div>
+			<div class="showboxright right" id="showboxright_div1">
+				<a class="l_btn" href="javascript:;"></a>
+				<div class="showclum">
+					<ul>
+						<!-- ajax -->
+	        <li><a href="javascript:void(0);" target="_blank"><img src="images/film_07.jpg" /><p><b>速度与激情</b><b>23334人已关注</b></p></a></li>
+	        <li><a href="javascript:void(0);" target="_blank"><img src="images/film_07.jpg" /><p><b>速度与激情</b><b>23334人已关注</b></p></a></li>  
+	        <li><a href="javascript:void(0);" target="_blank"><img src="images/film_07.jpg" /><p><b>速度与激情</b><b>23334人已关注</b></p></a></li>  
+	        <li><a href="javascript:void(0);" target="_blank"><img src="images/film_07.jpg" /><p><b>速度与激情</b><b>23334人已关注</b></p></a></li>
+	        <li><a href="javascript:void(0);" target="_blank"><img src="images/film_07.jpg" /><p><b>速度与激情</b><b>23334人已关注</b></p></a></li>
+					</ul>
+				</div>
+				<a class="r_btn" href="javascript:;"></a>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</div>
+	<!--弹窗 end-->
+
+	<!-- 右侧内容开始 -->
+	<div class="film_right right">
+		<div class="right_clum1">
+			<div class="film_title">
+				<h2>正在热播</h2>
+				<a target="_blank" href="#" class="more">更多></a>
+			</div>
+			<ul class="hot_play">
+				<?php $playingFilms = BFilmBlock::playing(1,5); ?>
+				<?php foreach($playingFilms as $film) { ?>
+				<li>
+					<div class="pic">
+                                            <a href="#"><img src="<?php echo $film['foreshow']; ?>" alt="" /></a> <i class="d3"><?php echo $film['formats']; ?></i>
+					</div>
+					<div class="txt">
+						<a class="title" href="#"><?php echo $film['name']; ?></a>
+						<p>导演：<?php echo $film['director']; ?></p>
+						<p>主演：<?php echo $film['actors']; ?></p>
+						<span class="len"><b><?php echo $film['cinemas']; ?>家</b>影院上映<b><?php echo $film['screen']; ?>场</b></span>
+					</div>
+					<div class="scores">
+						<em><b><?php echo $film['score']; ?></b>分</em>
+					</div>
+				</li> <?php } ?>
+			</ul>
+		</div>
+
+		<div class="right_clum2">
+			<div class="film_title">
+				<h2>本周热评榜</h2>
+				<a target="_blank" href="javascript:void(0);" class="more">更多></a>
+			</div>
+			<ul>
+				<li><a href="javascript:void(0);" target="_blank"><img
+						src="images/film_08.jpg" /></a>
+					<div class="hotclum">
+						<p class="hot_1">
+							<i><img src="images/film_14.jpg" /> </i>137611***
+						</p>
+						<p class="hot_2">
+							评：<b class="col">王牌特王牌特工</b>
+						</p>
+						<p class="hot_3">节奏挺快的，剧情挺老套的，不过把爆头拍的不过把爆头拍的拍的...</p>
+					</div>
+					<div class="hotlink">
+						<a href="javascript:void(0);" target="_blank">还有<span class="col">1234篇</span>影评>
+						</a>
+					</div></li>
+			</ul>
+		</div>
+
+	</div>
+	<!-- 右侧内容结束 -->
+	<div class="clear"></div>
+</div>
+<div class="hr_20"></div>

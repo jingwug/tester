@@ -1,0 +1,52 @@
+<div class="center_main_l">
+	<div class="userInfo">
+		<div class="hr_30"></div>
+		<a href="/user/basic" class="pic"><img src="<?php echo $userInfo['headimg'] ? $userInfo['headimg'] : TUrl::instance()->get('s_2584f867_13411981b67__7fd0.jpg'); ?>" alt="修改头像" /></a>
+		<div class="ui_oneLine mt10">
+			<a href="/user/basic"><?php echo $userInfo['nickname'] ? $userInfo['nickname'] : $userInfo['username']; ?></a>
+		</div>
+	</div>
+	<dl>
+		<dt class="wd_dd">我的订单</dt>
+		<dd><a href="/user/index">我的订单</a></dd>
+		<dd><a href="">历史订单</a></dd>
+	</dl>
+	<!--
+	<dl>
+		<dt class="wd_dd">我的关注</dt>
+		<dd><a href="">我关注的电影</a></dd>
+		<dd><a href="">我收藏的影院</a></dd>
+		<dd><a href="">我关注的影评</a></dd>
+	</dl>
+	<dl>
+		<dt>我的评论</dt>
+		<dd><a href="">我的电影评论</a></dd>
+		<dd><a href="">我的影院评论</a></dd>
+		<dd><a href="">我发布的影评</a></dd>
+	</dl>
+	-->
+	<dl>
+		<dt class="wd_zz">我的账户</dt>
+		<dd><a href="/user/surplus">账户明细</a></dd>
+		<!--
+		<dd><a href="/user/recharge">账户充值</a></dd>
+		-->
+	</dl>
+	<dl>
+		<dt class="zh_sz">账户设置</dt>
+		<dd><a href="/user/basic">基本资料</a></dd>
+		<dd><a href="/user/contact">联系方式</a></dd>
+		<dd><a href="/user/safe">安全设置</a></dd>
+	</dl>
+	<div class="clear"></div>
+</div>
+<script>
+	$(document).ready(function() {
+		/*当前页面导航高亮*/
+		var href = window.location.href.split('/')[window.location.href.split('/').length-1];
+		var new_href = href.split('?')[0];
+		if($(".center_main_l dl dd a[href$= '"+new_href+"']").parent().attr('class') != 'select'){
+			$(".center_main_l dl dd a[href$= '"+new_href+"']").parent().attr('class','select');
+		}
+	});
+</script>

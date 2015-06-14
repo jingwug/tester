@@ -1,0 +1,284 @@
+<link href="<?php echo TUrl::instance()->css('login.css'); ?>" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="<?php echo TUrl::instance()->js('common.js'); ?>"></script>
+<script type="text/javascript">
+    $(function() {
+        var selectedSeatInfoPanel = $("#J_SeatShow");
+        $.ajax({
+            type:"POST",
+            url : "/order/buyseatjsonAjax?cinemaid=<?php echo $Cinema_id; ?>&screenid=<?php echo $FilmSchedule_screenid; ?>",
+            dataType:"json",
+            success : function(data) {
+                $("#cinema_seats_box").initCinema({
+                    store : data,
+                    price: "<?php echo $FilmSchedule_standard_price?> ",
+                    maxSelected: 5,
+                    afterClickDisableItem : function() {
+                        alert('座位已卖出，换个吧');
+                    },
+                    reachMaxCount : function() {
+                        alert('已选满');
+                    },
+                    afterSelectSeat : function() {
+                        var items = this;
+                        $.each(items, function(i, v) {
+                            var selInfo = $(v).attr("title"), row = $(v).data("row"), col = $(v).data("column"), rc = row + "_" + col;
+                            var sel = '<li class="selected" data-rc="' + rc + '">' + selInfo + '</li>';
+                            var selInput='<input type="hidden" name="seats[]" value="'+rc+'" data-rc="'+rc+'"/>';
+                            selectedSeatInfoPanel.append(sel);
+                            $("#selectSeatsForm1").append(selInput);
+                        });
+                        $("#remained_seats_count").text('（剩余' + $("#cinema_seats_box").initCinema("getRemainedSeatsCount") + '个座位）');
+                        $("#showTotalPaySpan").text($("#cinema_seats_box").initCinema("getTotalPay")+"元");
+                        $("#showTotalSelSpan").text($("#cinema_seats_box").initCinema("getSelectedCount"));
+                    },
+                    afterDeselectSeat : function() {
+                        var items = this;
+                        $.each(items, function(i, v) {
+                            var selInfo = $(v).attr("title"), row = $(v).data("row"), col = $(v).data("column"), rc = row + "_" + col;
+                            selectedSeatInfoPanel.find('li[data-rc="' + rc + '"]').remove();
+                            $("#selectSeatsForm1").find('input[data-rc="' + rc + '"]').remove();
+                        });
+                        $("#remained_seats_count").text('（剩余' + $("#cinema_seats_box").initCinema("getRemainedSeatsCount") + '个座位）');
+                        $("#showTotalPaySpan").text($("#cinema_seats_box").initCinema("getTotalPay")+"元");
+                        $("#showTotalSelSpan").text($("#cinema_seats_box").initCinema("getSelectedCount"));
+                    },
+                    afterPanelInited : function() {
+                        selectedSeatInfoPanel.empty();
+                        $("#remained_seats_count").text('（剩余' + $("#cinema_seats_box").initCinema("getRemainedSeatsCount") + '个座位）');
+
+                    }
+                });
+            }
+        });
+
+        $('.wlogin a.close').on('click',function(){
+            closedia();
+        });
+    });
+</script>
+<div class="hr_10"></div>
+<!-- 中间部分 -->
+<div class="cinepaystep wrapper">
+    <div class="paystep">
+        <ul class="clearfix">
+            <li class="act">
+                <i>1</i>在线选座，填写手机号码
+            </li>
+            <li>
+                <i>2</i>确认订单并支付
+            </li>
+            <li>
+                <i>3</i>凭短信去终端取票
+            </li>
+            <li>
+                <i>4</i>观看电影
+            </li>
+        </ul>
+    </div>
+    <div class="spnoticeBox">
+        <div class="seatview left">
+            <h2><?php echo $Cinema_name.' '.$CinemaScreen_name; ?> 银幕<span id="remained_seats_count">（剩余0个座位）</span></h2>
+            <div class="seat_con" id="cinema_seats_box"></div>
+            <div class="seat_tip">
+                <span class="seat active"></span><span> 可选座位</span>
+                <span class="seat disabled"></span><span> 不可选座位</span>
+                <span class="seat selected"></span><span> 已选座位</span>
+                <span class="seat love"></span><span> 情侣座位</span>
+            </div>
+        </div>
+        <div class="seattable right">
+            <p class="seat_p1">
+                <a href="#" class="seatimg"><img alt="" src="<?php echo TUrl::instance()->imageUp($Film_image); ?>" width="100px" height="130px" /></a>
+                <a href="#" class="title"><b><?php echo $Film_name; ?></b></a>
+                <span>类型：<?php echo $Film_types; ?></span>
+                <span>版本：<?php echo $Film_formats; ?></span>
+            </p>
+            <ul>
+                <li>
+                    <span class="t">影院：</span><strong><?php echo $Cinema_name; ?></strong>
+                </li>
+                <li>
+                    <span class="t">影厅：</span><strong><?php echo $CinemaScreen_name; ?></strong>
+                </li>
+                <li>
+                    <span class="t">场次：</span>
+                    <span data-url="/xuanzuo/shop/87891/movie/246126/shows" id="J_ShowTime" class="show-time"><strong><?php echo $FilmSchedule_starttime; ?></strong><i></i></span>
+                </li>
+            </ul>
+            <div class="choose-seat">
+                <form name="chooseForm" method="post" action="/order/orders" id="selectSeatsForm1">
+                    <input type="hidden" id="forms_filmschedule" name="filmschedule" value="<?php echo $FilmSchedule_id; ?>" />
+                    <p>
+                        <span class="t">座位：</span><span class="col">点击左侧座位直接选择</span>
+                    </p>
+                    <div class="cf">
+                        <ul data-fee="4" data-price="50" id="J_SeatShow" style="display: block;">
+                        </ul>
+                    </div>
+                    <p>
+                        <span class="t">票价：</span><span class="val"><?php echo $FilmSchedule_standard_price; ?>元／张</span>
+                    </p>
+                    <p>
+                        <span class="t">票数：</span><span class="val" id="showTotalSelSpan">0</span>
+                    </p>
+                    <p>
+                        <span class="t">总价：</span><span class="val" id="showTotalPaySpan">0.00元</span>
+                    </p>
+                    <div class="chooselogin">
+                        <p>
+                            接收兑换码手机号：
+                        </p>
+                        <input name="phone"  type="text"  value="<?php echo $phone; ?>" onFocus="this.value=''" onBlur="if(!value){value=defaultValue;}">
+                        <input name="captcha"  type="text"  value="" maxlength="4" class="yz">
+                        <img id="valicode" class="valicode" alt="点击刷新" src="" style="cursor: pointer;" onclick="CAPTCHA.refresh();">
+                        <a title="看不清楚，请点击换一张图片" href="javascript:void(0);" class="col" onclick="CAPTCHA.refresh();"> 换一张</a>
+                        <div class="error02" style="display:none;">
+                            手机号不正确，请重新输入
+                        </div>
+                        <input type="submit" value="下一步" style="cursor: pointer;" class="lg" onclick="return checkParame();">
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- 登录弹窗 S -->
+        <div class="wlogin" style="display: none">
+            <h3 class="title">会员登录<a class="close" href="javascript:;"></a></h3>
+            <div class="wlogin_right">
+                <form name="login" method="post" action="" id="login_form">
+                    <div class="info_list">
+                        <span class="input_n">用户名</span>
+                        <label class="inpt winpt">
+                            <input class="G_input" maxlength="11" type="text" id="mobile" name="mobile" alt="请输入手机号码" style="width:246px;">
+                            <label class="overTxtLabel" for="mobile" >请输入您的电话号码或邮箱</label>
+                        </label>
+                    </div>
+
+                    <div class="info_list">
+                        <span class="input_n">密&nbsp&nbsp码</span>
+                        <label class="inpt winpt">
+                            <input class="G_input" type="password" id="password2" name="password" alt="登录密码">
+                            <label class="overTxtLabel" for="password2">请输入密码密码</label>
+                        </label>
+                    </div>
+
+
+                    <div class="info_list">
+                        <label class="inpt " for="captchaWebInput" style="width:115px;">
+                            <input type="text" class="captcha G_input" id="captchaWebInput" name="captcha" alt="验证码" autocomplete="off" style="width:115px" >
+                            <label class="overTxtLabel" for="captchaWebInput" style="width: 115px;">验证码</label>
+                            <span class="" style="left:110px;"></span>
+                        </label>
+                        <span style="float:left;padding-left:15px" class="yz_pic"><img class="valicode" style="cursor:pointer;vertical-align:top;" src="" alt="点击刷新"  id="valicode"> </span>
+                        <a href="javascript:void(0);" class="k_bq" style="right:-35px;" title="看不清楚，请点击换一张图片" onclick="CAPTCHA.refresh();">看不清？</a>
+                    </div>
+                    <div class="info_list" style="margin-top: 20px;">
+                        <input id="anonymity" name="anonymity" type="checkbox" class="styled">
+                        <div class="fu_wu" style="display: inline;">记住密码</div>
+                        <div class="wj_mm" style="top:0px;right:-11px;"><a href="javascript:void(0)">忘记密码？</a></div>
+
+                    </div>
+                    <div class="info_list">
+                        <input type="button" id="userLoginDiaBtn" class="getCheckpass" value="登&nbsp;&nbsp;录" style="width:325px;left:0px">
+                    </div>
+                    <div class="error02" style="display: block;">验证码不正确</div>
+                </form>
+            </div>
+        </div>
+        <div class="wlogin_bg" style="display: none"></div>
+        <!-- 登录弹窗 E -->
+        <div class="clear"></div>
+    </div>
+</div>
+
+<!-- 板块结束 -->
+<div class="hr_20"></div>
+<script>
+    function checkParame(){
+        if($('#selectSeatsForm1 input[name^=seats]').length <= 0){
+            alert('请选择座位');
+            return false;
+        }
+        if(!isPhone($('#selectSeatsForm1 input[name=phone]').val())){
+            $('.error02').text('手机号输入不正确，请重新输入');
+            $('.error02').show();
+            return false;
+        }
+
+        if(!$('#selectSeatsForm1 input[name=captcha]').val() || $('#selectSeatsForm1 input[name=captcha]').val().length !=4){
+            $('.error02').text('请输入正确的验证码');
+            $('.error02').show();
+            return false;
+        }else{
+            var  captcha= $('#selectSeatsForm1 input[name=captcha]').val();
+            $.post('/user/checkCaptcha', {captcha: captcha}, function (result) {
+                if (result != 1) {
+                    $('.error02').text('请输入正确的验证码');
+                    $('.error02').show();
+                }else{
+                    $('.error02').hide();
+                    //检查用户是否登录
+                    $.post('/user/isLogin', {}, function (result) {
+
+                        if (result != 1) {
+
+                            $('.wlogin').show();
+                            $('.wlogin_bg').show();
+                        }else{
+                            $('#selectSeatsForm1').submit();
+                        }
+                    });
+                }
+            });
+            return false;
+        }
+        return false;
+    }
+
+
+    var CAPTCHA = {
+        //验证码刷新
+        refresh: function () {
+            $.post('/image/refresh', {data: ''}, function (result) {
+                $('.valicode').attr('src', $.parseJSON(result));
+            });
+        }
+    };
+    function isPhone(str){
+        var reg = /^(1)[34578]{1}[0-9]{9}$/;
+        return reg.test(str);
+    }
+    CAPTCHA.refresh();
+
+    function closedia(){
+        $('.wlogin').hide();
+        $('.wlogin_bg').hide();
+    }
+
+    $("#userLoginDiaBtn").on("click",function(){
+        $('#login_form').cmSimpleFormValidate({
+            elements:{'#mobile':"手机号码不能为空",'#password1':'密码不能为空'}
+        });
+        if ( $('#login_form').cmSimpleFormValidate('valid')) {
+
+
+        	var username=$('#mobile').val();
+        	var pass=$('#password2').val();
+        	var captchaWebInput=$('#captchaWebInput').val();
+        	var data={username:username,password:pass,captcha:captchaWebInput};
+        	 $.post('/user/dologin', {data: data}, function (result) {
+                if(result.status=='success'){
+                	closedia();
+                }else{
+                	$('.error02').html(result.content);
+                	$('.error02').show();
+
+                }
+             },'json');
+
+
+
+
+        }
+    });
+</script>

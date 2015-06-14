@@ -1,0 +1,222 @@
+<link href="<?php echo TUrl::instance()->css('index.css'); ?>" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="<?php echo TUrl::instance()->js('index.js'); ?>"></script>
+<div class="hr_10"></div>
+<div class="cinepaystep wrapper">
+    <div class="paystep">
+        <ul class="clearfix"><li class="act"><i>1</i>在线选座，填写手机号码</li><li class="act"><i>2</i>确认订单并支付</li><li><i>3</i>凭短信去终端取票</li><li><i>4</i>观看电影</li></ul>
+    </div>
+    <div class="spnoticeBox">
+        <div class="my_tickets">
+            <div class="tickets_l left"></div>
+            <div class="tickets_con left">
+                <div class="tickets_info">
+                    <h3>我的电影票</h3>
+                    <div class="info_con">
+                        <div class="info_con_l left">
+                            <div class="pic left">
+                                <img src="/images/ticket_pic.jpg"/>
+                            </div>
+                            <ul class="text_name left">
+                                <li>片名：<span><?php echo $film['name']; ?></span></li>
+                                <li>影院：<span><?php echo $order['cinema_name']; ?></span></li>
+                                <li>场次：<span>
+                                    <?php
+                                    $week_data = array('日','一','二','三','四','五','六');
+                                    $date = substr($schedule['starttime'],5,5);
+                                    $time = substr($schedule['starttime'],11,5);
+                                    $week_idex = date("w",strtotime($schedule['starttime']));
+                                    $week = '周'.$week_data[$week_idex];
+                                    echo($date."(".$week.") ".$time);
+                                    ?></span></li>
+                                <li>影厅：<span><?php echo $order['screen_name']; ?></span></li>
+                                <li>语言版本：<span><?php echo $film['language'].' '.$film['formats']; ?></span></li>
+                                <li>时长：<span><?php echo $film['duration']; ?>分钟</span></li>
+                            </ul>
+                            <ul class="text_info left">
+                                <li>订单号：<span><?php echo $order['order_code']; ?></span></li>
+                                <li>座位：<span><?php echo $order['num']; ?>张（<?php echo $order['note']; ?>）</span></li>
+                                <li>应付金额：<span><b class="money"><?php echo $order['price_total']/100; ?>元</b></span></li>
+                                <li class="phone">取票电话：<span class="user_phone"><?php echo $order['phone']; ?></span><a class="revise" style="display: none;" href="#">修改手机号</a></li>
+                            </ul>
+                            <div class="decoration"></div>
+                        </div>
+                        <div class="info_con_r left">
+                            <i class="bg left"></i>
+                            <div class="countdown left">
+                                <p><span class="fall"></span>剩余支付时间</p>
+                                <p>请在<span class="mfall">15分钟</span>内完成支付</p>
+                                <p>否则系统将释放您选中的座位</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tickets_r left"></div>
+        </div>
+        <div class="payment_options" id="pay_film_payment_box1">
+            <div class="nav">
+                <a class="active" href="javascript:;">余额支付</a>|
+                <a href="javascript:;">网上支付</a>
+                <!-- <a href="javascript:;">信用卡支付</a>|
+                <a href="javascript:;">扫码支付</a> -->
+                <div class="payment_slider"></div>
+            </div>
+            <div class="payment_con">
+                <!-- 余额支付 S -->
+                <div class="balance">
+                    <p class="account">账户余额：<span class="b_col"><?php echo $userAccount ? $userAccount['account']/100 : '0'; ?>元</span>
+                        <!--余额不足提醒-->
+                        <?php if(empty($userAccount) || $userAccount['account'] < $order['price_total']){?>
+                        <a class="btn" href="/user/recharge">	去充值</a>
+                        <span class="prompt">您的余额不足，请选择其他支付方式</span>
+                        <?php }?>
+                    </p>
+                    <p>付&nbsp&nbsp款：<span class="o_col"><?php echo $order['price_total']/100; ?>元</span></p>
+                </div>
+                <!-- 余额支付 E -->
+                <!-- 网上支付 S -->
+                <div class="online" style="display: none;">
+                    <p class="title" style="display: none;">选择付款方式2</p>
+                    <div class="platform_pay">
+                        <p>支付平台支付：</p>
+                        <ul id="payOnNetBox">
+                            <li>
+                                <input type="radio" id="pays" name="pays" value="zhifubao"/>
+                                <label  class="checked" type="zhifubao">
+                                    <img class="active" src="/images/online_ico1.jpg" alt="支付宝" />
+                                </label>
+                            </li>
+                            <li>
+                                <label type="baopay">
+                                    <img src="/images/online_ico2.jpg" alt="宝付" />
+                                </label>
+                            </li>
+                            <li>
+                                <label type="qita">
+                                    <img src="/images/online_ico1.jpg" alt="其他" />
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- 网上支付 E -->
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+<div class="hr_10"></div>
+<div class="go_payments">
+    <div class="text">
+        <span class="timer left"></span>
+        <p class="with right">应付：¥<?php echo $order['price_total']/100; ?> <b class="fo_12">( 没有使用优惠 选择优惠 ) </b> 仍需支付：<span class="bi_28"><?php echo $order['price_total']/100; ?><em class="os_16">元</em></span></p>
+        <a class="pay_btn" href="javascript:void(0);" onclick="ORDER.pay();">去付款</a>
+    </div>
+</div>
+<!-- 板块结束 -->
+<div class="hr_20"></div>
+<script type="text/javascript">
+    $(function(){
+        $("#payOnNetBox li label").on("click",function(e){
+            $(this).closest("li").siblings().children("label").removeClass('checked').find('img').removeClass("active");
+            $(this).addClass('checked').find('img').addClass("active");
+            $('#pays').val($(this).attr('type'));
+        });
+//        $("#pay_film_payment_box1").cmtabPanel({
+//            initShow : 1,
+//            tabSelectedClass : "active",
+//            contentSelectedClass : "",
+//            tabs : "#pay_film_payment_box1 .nav a",
+//            contents : '#pay_film_payment_box1 .balance,#pay_film_payment_box1 .online',
+//            afterTabed:function(){
+//                var _l=$(this).position().left;
+//                $("#pay_film_payment_box1 .payment_slider").css({left:_l});
+//            }
+//
+//        });
+    });
+</script>
+<script>
+
+    var ORDER = {
+        time : "<?php echo($order['ctime']+900); ?>",
+        order_code : "<?php echo $order['order_code']; ?>",
+        paytype:'1',   //1:余额   2：平台
+        pay:function(){
+            $('#flim_list').html('请稍候……');
+            var onlineType = $('#pays').val();
+            $.ajax({
+                type: "POST",
+                url: "/order/payAjax",
+                data: {order_code:ORDER.order_code, paytype:ORDER.paytype, onlineType:onlineType},
+                dataType: "json",
+                success: function(result){
+                    alert(result.content);
+                    if(result.status == 'success'){
+                        window.location.href=result.url;
+                    }
+                },
+                error: function (msg) {
+                    alert('系统出错，请联系客服');
+                }
+
+            });
+
+            //跳转支付页
+//            var type = $('#pays').val();
+//
+//            window.location.href =  "/pay/index?order_code="+ORDER.order_code+"&type="+type;
+
+
+        },
+
+        //倒计时
+        timeDown:function(){
+            var date = new Date();
+            var timestamp = Date.parse(date)/1000;
+            var showtime = ORDER.time-timestamp;
+            if(showtime < 0){
+                clearInterval(ORDER.down);
+                $('.fall').text('订单已超时');
+                $('.timer').text('订单已超时');
+                $('.pay_btn').css('background-color','#c5c5c5');
+                $('.pay_btn').attr('onclick','return false;');
+            }else{
+                var html = Math.floor(showtime/60)+'分'+(showtime%60)+'秒';
+                $('.fall').text(html);
+                $('.timer').text(html);
+            }
+        }
+    };
+    $(function() {
+        $(".selectedMenus a").on("click", function(ev) {
+            if($(this).hasClass('down_org')){
+                $(this).siblings().attr('class','down_gry').end().attr('class','up_org');
+                ORDER.order = $(this).attr('order')+' ASC'
+            }else{
+                $(this).siblings().attr('class','down_gry').end().attr('class','down_org');
+                ORDER.order = $(this).attr('order')+' DESC'
+            }
+            ORDER.seach();
+        });
+        $('.nav a').on('click',function(){
+            var index = $(this).index();
+            $('.nav a').removeClass('active');
+            $(this).addClass('active');
+            if(index == 1){
+                $('.payment_slider').css('left','161px');
+                $('.payment_con div.balance').hide();
+                $('.payment_con div.online').show();
+                ORDER.paytype = 2;
+            }else{
+                $('.payment_slider').css('left','25px');
+                $('.payment_con div.online').hide();
+                $('.payment_con div.balance').show();
+                ORDER.paytype = 1;
+            }
+        });
+        ORDER.down = setInterval("ORDER.timeDown()", 1000)
+    });
+
+
+</script>

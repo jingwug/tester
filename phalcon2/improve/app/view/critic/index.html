@@ -1,0 +1,38 @@
+<link href="http://img.caimiao.cn/yingshi/v2/css/critic.css" rel="stylesheet" type="text/css" />
+
+<div class="wrapper">
+<!--中间部分-->
+<div class="file_mode">
+<div class="film_left left">
+<div class="moviecount">
+<div class="movietab">
+	<a href="/critic/index" <?php echo $orderby != 'comment' ? 'class="hov"' : ''; ?>>最新影评</a>
+	<a href="/critic/index/sort/comment" <?php echo $orderby=='comment' ? 'class="hov"' : ''; ?> >最热影评</a>
+	<!-- <a class="my_issue" href="#">我要发布</a> -->
+</div>
+<div class="critic_mode">
+	<ul class="critic_list">
+
+	<?php foreach($FilmCommens as $itm){?>
+		<li>
+			<div class="pic left">
+				<a href="<?php echo TUrl::instance()->get('/critic/detail/id/'.$itm['nid']); ?>"><img src="<?php echo TUrl::instance()->imageUp($itm['image']);  ?>" alt="" ></a>
+			</div>
+			<div class="txt">
+				<h3>
+					<a href="<?php echo TUrl::instance()->get('/critic/detail/id/'.$itm['nid']); ?>"><?php echo $itm['title']?></a>
+				</h3>
+				<p class="user"><?php echo $itm['author']?>评论：《<?php echo $itm['name']?>》<span class="movie_star"></span></p>
+				<p><?php echo $itm['content']?><a class="respond" href="#">(<?php echo $itm['comment']?>)回应</a></p>
+			</div>
+		</li>
+<?php }?>
+
+
+
+	</ul>
+</div>
+</div>
+<?php echo $paginator->getHtml();	?>
+</div>
+ <?php $this->partial('film/right'); ?>

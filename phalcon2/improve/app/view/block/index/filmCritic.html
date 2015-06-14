@@ -1,0 +1,18 @@
+	<?php $critics = BFilmTop::critic5(); ?>
+        <div class="film_title"><h2>精彩影评</h2><!-- <a target="_blank" href="#" class="more">更多></a> --></div>
+        <ul>
+            <?php foreach($critics as $critic) { ?>
+            <li>
+                <a href="<?php echo TUrl::instance()->get('critic', array('id' => $critic['id'])); ?>" target="_blank">
+                    <img src="<?php echo TUrl::instance()->imageUp($critic['image']);?>" />
+                    <h4><?php echo $critic['title']; ?></h4>
+                </a>
+                <p><?php echo $critic['summary']; ?>
+                    <a href="<?php echo TUrl::instance()->get('critic/list', array('filmid' => $critic['film_id'])); ?>" target="_blank">还有<?php echo $critic['critic']; ?>篇影评></a>
+                </p>
+            </li>
+            <?php } ?>
+        </ul>
+
+
+

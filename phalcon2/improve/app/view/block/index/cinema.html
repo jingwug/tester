@@ -1,0 +1,43 @@
+			<?php	$cinemas = BFilmBlock::cinemaByRegion(array(), 1, 4); ?>
+
+			<div class="left_clum3">
+				<div class="film_title">
+					<h2>热门影院</h2>
+					<!-- <a target="_blank" href="#" class="more">更多></a> -->
+				</div>
+				<!-- 
+				<div class="hotarea">
+					热门商区： <a href="#">浦东区</a><a href="#">黄浦区</a><a href="#">闵行区</a><a
+						href="#">徐汇区</a><a href="#">静安区</a><a href="#">普陀区</a><a href="#">宝山区</a><a
+						href="#">浦东区</a><a href="#">黄浦区</a><a href="#">闵行区</a><a href="#">徐汇区</a><a
+						href="#" class="but"></a>
+				</div>
+				 -->
+				<ul>
+					<?php foreach($cinemas as $cinema) { ?>
+					<li class="clearfix">
+						<div class="list_pic left">
+                                                    <a href="<?php echo TUrl::instance()->get('/cinema/cinemaInfo/id/'.$cinema['cinema_id']); ?>" target="_blank"><img style="width:200px; height:120px;" src="<?php echo TUrl::instance()->imageUp($cinema['image']); ?>" /></a>
+						</div>
+						<div class="list_text left">
+							<h2>
+								<a target="_blank" href="<?php echo TUrl::instance()->get('/cinema/cinemaInfo/id/'.$cinema['cinema_id']); ?>"><?php echo $cinema['name']; ?></a>
+							</h2>
+							<p class="word">
+								<a target="_blank" href="#">[<?php echo $cinema['county']; ?>]</a><?php echo $cinema['traffic']; ?> 
+								<a target="_blank" href="#" class="col">[交通]</a> <em class="col mg"><b><?php echo substr($cinema['score'],0,1).'.'.substr($cinema['score'],2,1); ?></b>分</em>
+							</p>
+							<!-- 
+							<p class="word2">
+								今日放映7部余54场<span class="col"><b>40</b>元起</span>
+							</p>
+							<p>13:20~23:55</p>
+							 -->
+						</div>
+						<div class="list_but right">
+							<a href="<?php echo TUrl::instance()->get('/cinema/cinemaInfo/id/'.$cinema['cinema_id']); ?>" target="_blank">马上购票</a>
+						</div>
+					</li>
+					<?php } ?>
+				</ul>
+			</div>
