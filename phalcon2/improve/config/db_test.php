@@ -4,26 +4,26 @@
  */
 return array(
 	'balanceDb' => array(
-		'default' => 'yingshi',
-		'yingshi' => array(
-			'prefix' => 'ys_',
+		'default' => 'tester',
+		'tester' => array(
+			'prefix' => 'tester_',
 			'write' => array(
 				'db' => array(
 					'adapter'     => 'Mysql',
-					'host'        => '121.40.31.143:65533',
-					'username'    => 'dbadmin',
-					'password'    => 'dbadmin!@#143',
-					'dbname'      => 'cm_yingshi2',
+					'host'        => '127.0.0.1:3306',
+					'username'    => 'root',
+					'password'    => '',
+					'dbname'      => 'tester',
 					'charset'     => 'utf8',
 				),
 			),
 			'reads' => array(
 				'db1' => array(
 					'adapter'     => 'Mysql',
-					'host'        => '121.40.31.143:65533',
-					'username'    => 'dbadmin',
-					'password'    => 'dbadmin!@#143',
-					'dbname'      => 'cm_yingshi2',
+					'host'        => '127.0.0.1:3306',
+					'username'    => 'root',
+					'password'    => '',
+					'dbname'      => 'tester',
 					'charset'     => 'utf8',
 				)
 			)
@@ -33,14 +33,14 @@ return array(
 		'main' => array(
 			'write' => array(
 				'main' => array(
-					'host'        => '121.40.31.143',
+					'host'        => '127.0.0.1',
 					'port'        => '6379',
 					'auth'        => 'tester',
 				),
 			),
 			'reads' => array(
 				'redis0' => array(
-					'host'        => '121.40.31.143',
+					'host'        => '127.0.0.1',
 					'port'        => '6379',
 					'auth'        => 'tester',
 				)

@@ -1,56 +1,5 @@
 <header>
-<div class="yb_cont tit_top">
-<div class="wrapper tit_top_main">
-<div class="banner_tit"><a href="/"><img src="<?php echo TUrl::instance()->image('logo_top.png'); ?>"/></a></div>
-	<?php $this->partial('index/area'); ?>
-
-	<?php if(isset($userInfo['username']) && !empty($userInfo['username'])) { ?>
-	<ul class="yhxxx">
-		<li class="ui_dhead"><a href="<?php echo TUrl::instance()->get('/user/index'); ?>"><img src="<?php echo $userInfo['headimg'] ? $userInfo['headimg'] : TUrl::instance()->image('s_2584f867_13411981b67__7fd0.jpg'); ?>"/></a></li>
-		<li class="ui_name"><a href="<?php echo TUrl::instance()->get('/user/index'); ?>"><?php echo $userInfo['nickname'] ? $userInfo['nickname'] : $userInfo['username']; ?></a></li>
-		<li class="help bc_white" style="padding:0px;"><a href="javascript:void(0);">我的订单</a></li>
-	</ul>
-	<?php } else { ?>
-	<ul class="yhxxx" style="width: 120px;">
-		<li name="login" class="login"><a href="/user/login">登录</a></li>
-		<li name="register" class="bor_no bor_line login"><a href="/user/register">注册</a></li>
-	</ul>
-	<?php } ?>
-
-	<?php if(isset($userInfo['username'])&&!empty($userInfo['username'])){ ?>
-	<ul class="help_list">
-		<li><a href="/user/index">我的账户</a></li>
-		<li><a href="#">我的消息</a></li>
-		<li><a href="/user/loginout">退出</a></li>
-	</ul>
-	<?php } ?>
-
-</div>
-</div>
-<!-- 通栏结束 -->
-<div class="yb_cont tit_yb">
-	<div class="wrapper tit_two">
-		<div class="banner_log"><img src="<?php echo TUrl::instance()->image('logo.png'); ?>" width="214" height="59" style="z-index: 98" /></div>
-		<div class="search">
-		<input class="search_ipt ya_hei"   placeholder='请输入搜索内容'   value=""  name="q"  autocomplete="off">
-		<input class="search_sub ya_hei" type="button" id='search_caimiao' value="搜索" >
-		</div>
-	</div>
-</div>
-<nav>
-	<div class="ui_nav_menu">
-		<div class="wrapper" id="nav_meun">
-			<ul class="nav_meun_ul">
-				<div class="on"><a href="/">首页</a></div>
-				<li class="o_cur"><a href="/film/heat">热映影片</a></li>
-				<li><a href="/cinema/index">电影院</a></li>
-				<li><a href="/news/preview">新片预告／资讯</a></li>
-				<li><a href="/critic/index">影评天地</a></li>
-				<!-- <li><a href="">积分商城</a></li> -->
-				<div class="slider"></div>
-			</ul>
-		</div>
-	</div>
-</nav>
+	header
 </header>
+<br/>
 <div class="hr_10"></div>
